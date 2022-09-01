@@ -1,0 +1,14 @@
+.cartedProductsPage{
+    overflow-x: hidden;
+}
+.orderSummary-container{
+    top: 25%;
+    right:5%;
+    position:fixed;
+    border-radius: 10px;
+    background-color: rgba(221, 197, 201, 0.336);
+}
+.cart-item{
+    background-color: rgb(228, 211, 231);
+    border-radius: 10px;
+}

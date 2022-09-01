@@ -1,0 +1,6 @@
+.shop-nowBtn{
+    visibility: hidden; 
+}
+.type-container:hover .shop-nowBtn{
+    visibility: visible;
+}

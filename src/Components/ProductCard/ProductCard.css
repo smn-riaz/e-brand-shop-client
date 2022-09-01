@@ -1,0 +1,42 @@
+.productCard{
+    height: 350px;
+    width: 400px;
+    position: relative;
+    cursor: pointer;
+}
+.productCard:hover{
+    background-color: rgba(29, 31, 31, 0.13);
+    
+}
+.product-name{
+    position: absolute;
+    right: 4%;
+    top: 4%;
+    visibility: hidden;
+}
+.product-image{
+    transition: transform .3s ease-out;
+}
+.productCard:hover .product-image{
+    transform: scale(1.05, 1.05);
+}
+
+
+.iconDiv{
+    position:absolute;
+    top: 40%;
+    bottom: 40%;
+    left: 25%;
+    right: 25%;
+    visibility: hidden;
+    z-index: 1;
+}
+.productCard:hover .iconDiv, .productCard:hover .product-name{
+    visibility: visible;
+}
+.product-icon{
+    transition: transform .5s ease;
+}
+.product-icon:hover{
+    transform: scale(1.2, 1.2);
+}

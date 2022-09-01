@@ -1,0 +1,30 @@
+.seasonalSection{
+    min-height: 100vh;
+    overflow: hidden;
+}
+.typeSelection-container{
+    cursor: pointer;
+}
+.type-container{
+    height: 90vh;
+}
+
+.seasonal-imageCard{
+    position: relative;
+    text-align: center !important;
+}
+
+.seasonal-imageCardButton{
+    position: absolute;
+    top: 8%;
+    left: 2%;
+    z-index: 1;
+    margin: 0 auto;
+    transform: rotate(-30deg);
+    visibility: hidden;
+    transition: all .1ms  ease;
+}
+
+.seasonal-imageCard:hover .seasonal-imageCardButton{
+    visibility: visible;
+}
