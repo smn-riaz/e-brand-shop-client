@@ -8,12 +8,11 @@
 
 <br>
 <h2>Features</h2>
-<li>People can register and sign in here using email and password.</li>
-<li>Registered users can book appointment (by choosing doctor) and admit into hospital.</li>
-<li>Amazing user specific different dashboard features for patients and  staffs.</li>
-<li>Maximum 3 Patients can get appointment from a doctor in a day</li>
-<li>Staffs can watch every patients details (appointment, admit info) and manage everything.</li>
-<li>Doctors information & services information are available</li>
+<li>Register, sign in, cart and order products.
+<li>Admin can manage orders, products and customers through the dashboard.
+<li>Email, password type check, data schema check.
+<li>Responsive for a few types of device
+
 
 <br>
 
@@ -35,9 +34,13 @@
 <br><br>
 
 <h3>Home Page</h3>
+<img src="https://user-images.githubusercontent.com/76748226/189055324-056e6a35-e20d-4bfd-92e7-e28947cd4a09.png" />
 <h3>Single Product Page</h3>
+<img src="https://user-images.githubusercontent.com/76748226/189055495-7bdc1d17-db9d-4900-b399-580b4ba2ed5b.png" />
 <h3>Cart Page</h3>
-<h3>Admin Panel</h3>
+<img src="https://user-images.githubusercontent.com/76748226/189055860-0e6a8e42-7282-48bf-ada3-e9766930e5fd.png" />
+<h3>Admin Panel Dashboard</h3>
+<img src="https://user-images.githubusercontent.com/76748226/189055581-06667a33-babd-4c39-979e-84167fde8f8a.png" />
 
 
 
