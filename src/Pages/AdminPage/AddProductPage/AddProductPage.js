@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
 import { Form } from "react-bootstrap";
 import './AddProductPage.css'
+import OpenMessage from "../../../Components/OpenMessage/OpenMessage";
 
 const AddProductPage = () => {
 
@@ -25,6 +26,7 @@ const AddProductPage = () => {
 
         <div className="col-lg-10 row d-flex justify-content-center col-md-9">
           <div className="addproduct-container col-8 py-3 m-3">
+            <OpenMessage />
             <Form>
               <div className="first-part d-flex justify-content-center row">
                 <div className=" col-5">

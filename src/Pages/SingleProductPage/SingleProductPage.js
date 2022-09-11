@@ -8,7 +8,7 @@ const SingleProductPage = () => {
   const { state } = useLocation();
 
   const { image, name, price, instock, type, color, size, productId } = state;
-  const {customerInfo, cartInfo, setCartInfo} = useContext(CustomerInfoContext)
+  const {customerInfo} = useContext(CustomerInfoContext)
   const [selectedColor, setSelectedColor] = useState("Available Color");
   const [selectedSize, setSelectedSize] = useState("L");
  
@@ -19,6 +19,7 @@ const SingleProductPage = () => {
   const totalPrice = amount * price;
 
   const cartDetails = {
+    _id:customerInfo._id,
     email: customerInfo.email,
     productId: productId,
     productName: name,
@@ -29,24 +30,36 @@ const SingleProductPage = () => {
     totalPrice,
     productColor: selectedColor,
     productSize: selectedSize,
+    cartDate: new Date()
   };
-  // console.log(cartDetails);
-  const isAvailable = cartInfo.filter(cart => cart.productId === productId)
+ 
 
-  const handleSubmit = () => {
+  const isAvailable = customerInfo.cart.filter(cart => cart.productId === productId)
+
+  const handleAddCart = () => {
     if(isAvailable.length === 0){
-      setCartInfo([...cartInfo, cartDetails]) 
-       
-      navigate("/cart")
-
+      fetch("http://localhost:5000/customer/addCart", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(cartDetails),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if(data){
+            navigate("/cart")
+          }
+        });
+      
 
     } else if(isAvailable.length > 0){
 
     }
-    // navigate("/cart")
+ 
   };
 
-  // console.log(cartInfo);
+
 
   return (
     <main className="singleProductPage px-3">
@@ -125,19 +138,19 @@ const SingleProductPage = () => {
             {isAvailable.length === 0 &&
               <button
               className="border-0 bg-secondary text-white w-25 px-3 py-2"
-              onClick={handleSubmit}
+              onClick={handleAddCart}
             >
               ADD TO CART
             </button>
             }
-            {isAvailable.length > 0 &&
+            {/* {isAvailable.length > 0 &&
               <button
               className="border-0 bg-secondary text-white w-25 px-3 py-2"
-              onClick={handleSubmit}
+              onClick={handleUpdateCart}
             >
               UPDATE TO CART
             </button>
-            }
+            } */}
           </div>
         </div>
       </div>

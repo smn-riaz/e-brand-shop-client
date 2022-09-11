@@ -9,22 +9,15 @@
     height: 90vh;
 }
 
-.seasonal-imageCard{
-    position: relative;
-    text-align: center !important;
-}
 
-.seasonal-imageCardButton{
-    position: absolute;
-    top: 8%;
-    left: 2%;
-    z-index: 1;
-    margin: 0 auto;
-    transform: rotate(-30deg);
+
+.shopnow-btn{
     visibility: hidden;
-    transition: all .1ms  ease;
+    transition: transform 1s ease;
+    transform: translate(0px , -50px);
 }
 
-.seasonal-imageCard:hover .seasonal-imageCardButton{
+.productCard:hover .shopnow-btn{
     visibility: visible;
+    transform: translate(0px , -90px);
 }

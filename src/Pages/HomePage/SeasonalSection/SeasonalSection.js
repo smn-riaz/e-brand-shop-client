@@ -4,30 +4,37 @@ import { allProducts, seasonalProducts } from "../../../data";
 import { useNavigate } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
+import { Slide } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus} from "@fortawesome/free-solid-svg-icons";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 const SeasonalSection = () => {
   const [season, setSeason] = useState("winter");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const products = allProducts.filter(
-    (product) => product.type === season
-  );
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 2000,
-    slidesToShow: 2,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-  };
+  const products = allProducts.filter((product) => product.type === season);
+
+  const responsiveSettings = [
+    {
+      breakpoint: 800,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      },
+    },
+    {
+      breakpoint: 500,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      },
+    },
+  ];
 
   return (
     <main className="seasonalSection p-3">
-       <h2 className="text-center py-3">SEASONAL DHAMAKA</h2>
+      <h2 className="text-center py-3">SEASONAL DHAMAKA</h2>
       <div className="typeSelection-container text-center d-flex justify-content-center row">
         <ul className="col-10">
           <button
@@ -53,22 +60,53 @@ const SeasonalSection = () => {
         </ul>
       </div>
 
-      <div className="imageCard-container p-4">
-        <Slider {...settings}>
+      <div className="imageCard-container mx-auto">
+        <Slide
+          slidesToScroll={1}
+          slidesToShow={1}
+          indicators={true}
+          autoplay={true}
+          responsive={[
+            {
+              breakpoint: 800,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+              },
+            },
+            {
+              breakpoint: 500,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+              },
+            },
+          ]}
+        >
           {products.map((product) => (
-            <div className="text-center seasonal-imageCard">
-              <img className=""
+            <div className="text-center productCard h-100 mx-3">
+              <img
+                className=""
                 src={product.image}
-                height="70%"
-                width="60%"
+                height="100%"
+                width="100%"
                 alt=""
               />
-              <div className="seasonal-imageCardButton text-center">
-              <button className="p-2" onClick={() => navigate(`${product.type}/${product.productId}`, {state: product})}><FontAwesomeIcon icon={faCartPlus} /> SHOP NOW</button>
-              </div>
+                <div className="text-center">
+                  <button
+                    className="p-2 shopnow-btn shop-nowBtn"
+                    onClick={() =>
+                      navigate(`${product.type}/${product.productId}`, {
+                        state: product,
+                      })
+                    }
+                  >
+                    <FontAwesomeIcon icon={faCartPlus} /> SHOP NOW
+                  </button>
+                </div>
             </div>
           ))}
-        </Slider>
+        </Slide>
       </div>
     </main>
   );

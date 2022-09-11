@@ -2,6 +2,7 @@ import { faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext, useEffect, useState } from 'react'
 import { CustomerInfoContext } from '../../../App'
+import OpenMessage from '../../../Components/OpenMessage/OpenMessage'
 import Sidebar from '../../../Components/Sidebar/Sidebar'
 import './ProductsPage.css'
 
@@ -19,8 +20,27 @@ const ProductsPage = () => {
 }, [])
 
 
-const deleteProductHandler = (id) =>{
-  console.log(id);
+const deleteProductHandler = (id) => {
+  fetch('http://localhost:5000/product/deleteProduct', {
+    method:"POST",
+    headers:{
+      "content-type":"application/json"
+    },
+    body:JSON.stringify({_id:id})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data){
+      alert(`Product ${id} Deleted Successfully!`)
+      fetch('http://localhost:5000/product/allProduct')
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data.data)
+        setDashboardData({...dashboardData, totalProducts: data.data.length,
+          products:data.data})
+      })
+    }
+  })
 }
 
   return (
@@ -30,6 +50,7 @@ const deleteProductHandler = (id) =>{
 
         <div className="col-lg-10 row col-md-9 p-4 appointmentsPageContainer" >
             <div>
+              <OpenMessage />
                 {(products.length > 0) ?
                 <div> <h4 className='text-center p-3'>Total Products: <button className='circleStyle'> {products.length}</button></h4>
                     <table className="patientInfo-table table table-borderless delete-data container">

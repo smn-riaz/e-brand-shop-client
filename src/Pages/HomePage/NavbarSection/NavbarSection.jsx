@@ -1,6 +1,6 @@
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
@@ -13,13 +13,17 @@ import { CustomerInfoContext } from "../../../App";
 import './NavbarSection.css'
 
 function NavbarSection() {
-  const {customerInfo, setCustomerInfo} = useContext(CustomerInfoContext)
+  const {customerInfo, setCustomerInfo, dashboardData, setDashboardData} = useContext(CustomerInfoContext)
+
+
+  
+
   const handleSignOut = () => {
-    setCustomerInfo({
-      name:"",
-      email:""
-    })
+    
   }
+
+  
+
   return (
     <main className="navbarsection">
       <>
@@ -89,10 +93,11 @@ function NavbarSection() {
                     <Nav.Link className="px-3">
                       <button
                        onClick={() => handleSignOut}
-                        className="fw-bold px-2 text-dark text-decoration-none"
+                        className="fw-bold border-0 bg-white p-1 text-dark shadow rounded text-decoration-none"
                       >
-                        Sign Out
+                        Sign Out <button className="border-0 bg-info rounded text-white">{customerInfo.name}</button>
                       </button>
+                      
                     </Nav.Link>
                     }
                     {
@@ -111,7 +116,7 @@ function NavbarSection() {
 
                   
                       <Nav.Link className="px-3">
-                      <Link
+                      <Link 
                         to="/admin/dashboard"
                         className="fw-bold px-2 text-dark text-decoration-none"
                       >
@@ -126,6 +131,7 @@ function NavbarSection() {
                         className="fw-bold px-2 text-dark text-decoration-none"
                       >
                         <FontAwesomeIcon icon={faCartShopping} />
+                        <sup className="border border-2 rounded border-info"><strong>{customerInfo.cart.length}</strong></sup>
                       </Link>
                     </Nav.Link>
                   </Nav>

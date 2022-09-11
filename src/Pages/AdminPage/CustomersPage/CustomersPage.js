@@ -2,6 +2,7 @@ import { faTrash, faWrench } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext, useEffect, useState } from 'react'
 import { CustomerInfoContext } from '../../../App'
+import OpenMessage from '../../../Components/OpenMessage/OpenMessage'
 import Sidebar from '../../../Components/Sidebar/Sidebar'
 
 const CustomersPage = () => {
@@ -19,8 +20,29 @@ const CustomersPage = () => {
 
 
 const deleteCustomerHandler = (id) => {
-
+  fetch('http://localhost:5000/customer/deleteCustomer', {
+    method:"POST",
+    headers:{
+      "content-type":"application/json"
+    },
+    body:JSON.stringify({_id:id})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if(data){
+      alert("Customer Deleted Successfully!")
+      fetch('http://localhost:5000/customer/allCustomer')
+        .then(res => res.json())
+        .then(data => {
+          setCustomers(data.data)
+          setDashboardData({...dashboardData, totalCustomers: data.data.length,
+            customers:data.data})
+        })
+    }
+  })
 }
+
+
 
 
   return (
@@ -32,11 +54,12 @@ const deleteCustomerHandler = (id) => {
 
       <div className="col-lg-10 row col-md-9 p-4 appointmentsPageContainer">
       <div>
+        <OpenMessage />
                 {(customers.length > 0) ?
-                <div> <h4 className='text-center p-3'>Total Customers: <button className='circleStyle'> {customers.length}</button></h4>
-                    <table className="patientInfo-table table table-borderless delete-data container">
+                <div> <h4 className='text-center p-3 text-success fw-bold'>Total Customers:  {customers.length}</h4>
+                    <table className="patientInfo-table table text-secondary table-borderless delete-data container">
                         <thead>
-                            <tr className="table-header border ">
+                            <tr className="table-header border">
                             
                                 <th className="" scope="col">Name</th>
                                 <th className="" scope="col">Email</th>

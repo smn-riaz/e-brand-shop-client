@@ -1,20 +1,27 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useEffect, useState } from "react";
 import { CustomerInfoContext } from "../../../App";
+import OpenMessage from "../../../Components/OpenMessage/OpenMessage";
 import Sidebar from "../../../Components/Sidebar/Sidebar";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
+  const [orderStatus, setOrderStatus] = useState()
   const { dashboardData, setDashboardData } = useContext(CustomerInfoContext);
+
   useEffect(() => {
     fetch("http://localhost:5000/order/allOrder")
       .then((res) => res.json())
       .then((data) => {
         setOrders(data.data);
-        setDashboardData({...dashboardData, totalOrders: data.data.length,
-          orders:data.data})
+        setDashboardData({
+          ...dashboardData,
+          totalOrders: data.data.length,
+          orders: data.data,
+        });
       });
   }, []);
+  
   return (
     <main className="adminPage">
       <div className="row">
@@ -26,6 +33,7 @@ const OrdersPage = () => {
           <div>
             <div>
               {" "}
+              <OpenMessage />
               <h4 className="text-center p-3">
                 Pending Orders:{" "}
                 <button className="circleStyle"> {orders.length}</button>
@@ -66,7 +74,20 @@ const OrdersPage = () => {
                         <td>{email}</td>
                         <td>{deliveryAddress.phone}</td>
                         <td>{orderDate}</td>
-                        <td>{orderStatus}</td>
+                        <td>
+                          <label for="color" className="p-2 fw-bold">
+                          <select
+                            className="selectOption"
+                            name="status"
+                            id="status"
+                            onChange={(e) => setOrderStatus(e.target.value)}
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="devivered">Delivered</option>
+                          </select>
+                          </label>
+                          
+                        </td>
                         <td>{amount}</td>
                         <td>
                           <ul className="list-unstyled">

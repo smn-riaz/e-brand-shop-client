@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import React, { useContext, useEffect, useState,   } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomerInfoContext } from "../../App";
@@ -8,28 +8,24 @@ import "./CartedProductsPage.css";
 
 const CartedProductsPage = () => {
   const navigate = useNavigate();
-  const { cartInfo, setCartInfo, customerInfo } =
-    useContext(CustomerInfoContext);
-  const {updatedCartInfo, setUpdatedCartInfo} = useState([])
-
-
-     useEffect(() => {
-      fetch("http://localhost:5000/customer/cartUpdate",{
+  const { customerInfo, setCustomerInfo } = useContext(CustomerInfoContext);
+ 
+  useEffect(() => {
+      fetch("http://localhost:5000/customer/aCustomer",{
         method:"POST",
         headers:{
           "content-type":"application/json"
         },
-        body: JSON.stringify({_id:customerInfo._id, cart:cartInfo})
+        body: JSON.stringify({_id:customerInfo._id})
       })
       .then(res=> res.json())
       .then(data => {
-        setCartInfo(data.data.cart)
-        setUpdatedCartInfo(data.data.cart)
+        setCustomerInfo(data.data[0])
     })
      },[])
  
 
-  const clothesCost = cartInfo.reduce((a, b) => a + b.totalPrice, 0);
+  const clothesCost = customerInfo.cart.reduce((a, b) => a + b.totalPrice, 0);
 
   // shipping cost
   let shippingCost = 15;
@@ -43,15 +39,8 @@ const CartedProductsPage = () => {
   }
 
 
-  // delete cart
-  const deleteCart = (productType, productId) => {
-    const product = cartInfo.filter((cart) => cart.productId !== productId);
-    setCartInfo(product);
-  };
-
-
   const checkOutData = {
-    cart: cartInfo,
+    cart: customerInfo.cart,
     name: customerInfo.name,
     email: customerInfo.email,
     orderDate: new Date().toLocaleDateString(),
@@ -60,18 +49,34 @@ const CartedProductsPage = () => {
   };
 
 
+  const deleteCart = (productId) =>{
+   
+      fetch("http://localhost:5000/customer/deleteCart",{
+        method:"POST",
+        headers:{
+          "content-type":"application/json"
+        },
+        body: JSON.stringify({_id:customerInfo._id,productId})
+      })
+      .then(res=> res.json())
+      .then(data => {
+        if(data){
+          navigate('/#shopping')
+        }
+    })
   
+  }
 
 
   return (
     <main className="cartedProductsPage p-4">
-      {cartInfo.length > 0 && (
-        <h5 className="text-center">Total Item: {cartInfo.length}</h5>
+      {customerInfo.cart.length > 0 && (
+        <h5 className="text-center">Total Item: {customerInfo.cart.length}</h5>
       )}
-      {cartInfo.length > 0 ? (
+      {customerInfo.cart.length > 0 ? (
         <div className="d-flex row justify-cotent-around">
           <div className="col-lg-9 d-flex row justify-cotent-around">
-            {cartInfo.map((cart) => {
+            {customerInfo.cart.map((cart) => {
               const {
                 productImage,
                 amount,
@@ -90,9 +95,9 @@ const CartedProductsPage = () => {
                     <img src={productImage} alt="" height="100%" width="80%" />
                   </div>
                   <div className="col-lg-4">
-                    <p>
+                    {/* <p>
                       <b>Product: </b> {productName[0]}
-                    </p>
+                    </p> */}
                     <p>
                       <b>ID: </b> {productId}
                     </p>
@@ -110,7 +115,7 @@ const CartedProductsPage = () => {
                     <p>
                       <b>Total Cost: </b> ${totalPrice}
                     </p>
-                    <button onClick={() => deleteCart(productType, productId)}>
+                    <button onClick={() => deleteCart( productId)}>
                       DELETE
                     </button>
                   </div>

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 import AddProductPage from "./Pages/AdminPage/AddProductPage/AddProductPage";
@@ -28,7 +28,7 @@ function App() {
     email: "",
     cart: [],
   });
-  const [cartInfo, setCartInfo] = useState([]);
+
   const [dashboardData, setDashboardData] = useState({
     totalProducts: 0,
     totalCustomers: 0,
@@ -37,13 +37,30 @@ function App() {
     customers: [],
     orders: [],
   });
+
+
+  useEffect(() => {
+    
+    fetch("http://localhost:5000/order/allOrder")
+    .then((res) => res.json())
+    .then((data) => {
+      setDashboardData({...dashboardData, totalOrders: data.data.length,
+        orders:data.data})
+    });
+
+  
+
+    
+
+}, [])
+
+
+
   return (
     <CustomerInfoContext.Provider
       value={{
         customerInfo,
         setCustomerInfo,
-        cartInfo,
-        setCartInfo,
         dashboardData,
         setDashboardData,
       }}
@@ -62,7 +79,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/checkout-success" element={<CheckoutSuccessPage />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/cart" element={<CartedProductsPage />} />
+          <Route path="/cart" element={<PrivateRoute><CartedProductsPage /></PrivateRoute>} />
           <Route path="/admin/dashboard" element={<DashboardPage />} />
           <Route path="/admin/orders" element={<OrdersPage />} />
           <Route path="/admin/customers" element={<CustomersPage />} />

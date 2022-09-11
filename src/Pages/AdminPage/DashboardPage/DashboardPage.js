@@ -1,18 +1,21 @@
 import React, { useContext, useEffect } from 'react'
 import { CustomerInfoContext } from '../../../App'
+import OpenMessage from '../../../Components/OpenMessage/OpenMessage'
 import Sidebar from '../../../Components/Sidebar/Sidebar'
 
 const DashboardPage = () => {
   const {dashboardData, setDashboardData} = useContext(CustomerInfoContext)
 
   useEffect(() => {
-    fetch('http://localhost:5000/product/allProduct')
+    setTimeout(() => {
+      fetch('http://localhost:5000/product/allProduct')
         .then(res => res.json())
         .then(data => {
           setDashboardData({...dashboardData, totalProducts: data.data.length,
             products:data.data})
         })
-}, [])
+    }, 100);
+  },[])
 
   const summerProducts = dashboardData.products.filter(product => product.type==="summer")
   const winterProducts = dashboardData.products.filter(product => product.type==="winter")
@@ -89,21 +92,21 @@ const DashboardPage = () => {
       </div>
 
       <div className="col-lg-10 row col-md-9 p-4 appointmentsPageContainer">
-        <h3>Products || Customers || Orders</h3>
-        <div className='row d-flex justify-content-center'>
-          <div className="col-3 text-center bg-success text-light m-1">
-            <h4> Total Products: {dashboardData.totalProducts}</h4>
+        <OpenMessage />
+        <div className='row d-flex justify-content-center my-3 '>
+          <div className="col-3 text-center text-success m-3">
+            <h3> Total Products: {dashboardData.totalProducts}</h3>
           </div>
-          <div className="col-3 text-center bg-success text-light m-1">
+          {/* <div className="col-3 text-center bg-success text-light m-1">
             <h4> Total Customers: {dashboardData.totalCustomers}</h4>
           </div>
           <div className="col-3 text-center bg-success text-light m-1">
           <h4>Pending Orders: {dashboardData.totalOrders}</h4>
-          </div>
+          </div> */}
           
         </div>
 
-<h3>Product Type Data</h3>
+<br />
         <div className='row d-flex justify-content-center'>
           {
             typesData.map(typeData => {
